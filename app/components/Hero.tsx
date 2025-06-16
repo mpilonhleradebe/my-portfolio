@@ -16,6 +16,7 @@ const Hero = ({scrollProgress, setScrollProgress}: scrollProgressProp) => {
     <div 
       ref={heroRef}
       className='w-screen h-screen'
+      id='intro'
     >
       {/* contact tabs */}
       <div className="pl-15 pt-15 ">

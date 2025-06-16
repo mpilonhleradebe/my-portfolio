@@ -1,13 +1,26 @@
-import React from 'react'
+'use client';
+import React from 'react';
 
 type ScrollProgressProp = {
   scrollProgress: number;
+  onWorkClick?: () => void; // Add click handler prop
 };
 
-const WorkScrollEffect = ( {scrollProgress }: ScrollProgressProp) => {
+const WorkScrollEffect = ({ scrollProgress, onWorkClick }: ScrollProgressProp) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onWorkClick) {
+      onWorkClick();
+    }
+  };
+
   return (
     <div className=''>
-      <a href="">
+      <a 
+        href="#work" 
+        onClick={handleClick}
+        className="cursor-pointer hover:opacity-70 transition-opacity"
+      >
         <h2 className='text-[11px] font-bold'>WORK</h2>
       </a>
       {/* scroll effect */}
@@ -21,7 +34,7 @@ const WorkScrollEffect = ( {scrollProgress }: ScrollProgressProp) => {
         ></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WorkScrollEffect
+export default WorkScrollEffect;

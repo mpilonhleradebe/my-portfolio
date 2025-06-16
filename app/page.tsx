@@ -10,8 +10,9 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false);
   const scrollEndTimer = useRef<NodeJS.Timeout | null>(null);
-  const lastScrollTop = useRef(0); // Track last scroll position
-  const directionRef = useRef<'up'|'down'>('down'); // Track scroll direction
+  const lastScrollTop = useRef(0);
+  const directionRef = useRef<'up' | 'down'>('down');
+  const [activeItem, setActiveItem] = useState<string>('intro'); // Set initial active item
   
   // Smoother background transition
   const BG_TRANSITION_START = 0.3;
@@ -44,6 +45,13 @@ export default function Home() {
       const progress = Math.min(1, currentScrollTop / heroHeight);
       setScrollProgress(progress);
 
+      // Update active item based on scroll position and direction
+      if (directionRef.current === 'down' && progress > 0.5) {
+        setActiveItem('work');
+      } else if (directionRef.current === 'up' && progress < 0.5) {
+        setActiveItem('intro');
+      }
+
       // Set timeout for snap effect with reduced delay
       scrollEndTimer.current = setTimeout(() => {
         isScrolling.current = false;
@@ -57,7 +65,7 @@ export default function Home() {
             behavior: 'smooth'
           });
         }
-      }, 50); // Reduced delay for quicker response
+      }, 80);
     };
 
     container.addEventListener('scroll', handleScroll);
@@ -67,10 +75,40 @@ export default function Home() {
     };
   }, []);
 
-  // Calculate background color with smooth gradient
+  const handleNavClick = (id: string) => {
+    setActiveItem(id); // Set active item on click
+    const container = containerRef.current;
+    if (!container) return;
+
+    if (id === 'intro') {
+      container.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      const targetSection = document.getElementById(id);
+      if (targetSection) {
+        container.scrollTo({
+          top: targetSection.offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+  
+  const handleWorkClick = () => {
+    if (workRef.current && containerRef.current) {
+      containerRef.current.scrollTo({
+        top: workRef.current.offsetTop,
+        behavior: 'smooth'
+      });
+      setActiveItem('work');
+    }
+  };
+
   const calculateBgColor = () => {
     if (scrollProgress < BG_TRANSITION_START) return "rgb(0, 0, 0)";
-    if (scrollProgress > BG_TRANSITION_END) return "rgb(255, 255, 255)";
+    if (scrollProgress > BG_TRANSITION_END) return "rgb(254, 254, 254);";
     
     const ratio = (scrollProgress - BG_TRANSITION_START) / 
                   (BG_TRANSITION_END - BG_TRANSITION_START);
@@ -79,9 +117,20 @@ export default function Home() {
   };
 
   const bgColor = calculateBgColor();
-
-  // Scroll indicator fade effect
   const scrollIndicatorOpacity = Math.max(0, 1 - (scrollProgress * 1.5));
+
+      const navItems = [
+    { id: 'intro', label: 'Intro' },
+    { id: 'work', label: 'Work' },
+    { id: 'about', label: 'Me' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'resume', label: 'Resume' }
+      ];
+  
+  
+  
+  //refs
+  const workRef = useRef<HTMLDivElement>(null);
 
   return (
     <div 
@@ -97,26 +146,36 @@ export default function Home() {
         ref={heroRef} 
         className="h-screen"
       >
-        <Hero />
+        <Hero scrollProgress={scrollProgress} setScrollProgress={setScrollProgress}/>
         
         {/* Scroll Indicator */}
         <div 
           className="absolute top-[70vh] left-15 z-10 transition-opacity duration-300"
           style={{ opacity: scrollIndicatorOpacity }}
         >
-          <WorkScrollEffect scrollProgress={scrollProgress}/>
+          <WorkScrollEffect 
+  scrollProgress={scrollProgress} 
+  onWorkClick={handleWorkClick} 
+/>
         </div>
       </section>
 
-      {/* Work Section */}
+      {/* Fixed Work Section */}
       <section 
-        className="h-screen"
+        ref={workRef} 
+        id="work"
+        className="min-h-screen"
         style={{ 
-          opacity: Math.min(1, Math.max(0, (scrollProgress - 0.5) * 1.5)),
+          opacity: Math.min(1, Math.max(0, (scrollProgress - 0.3) * 2)),
           transition: 'opacity 100ms ease-out'
         }}
       >
-        <AllWork />
+        <AllWork 
+          navItems={navItems} 
+          handleNavClick={handleNavClick} 
+          activeItem={activeItem} 
+          setActiveItem={setActiveItem} 
+        />
       </section>
     </div>
   );
