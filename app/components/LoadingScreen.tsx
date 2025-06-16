@@ -1,7 +1,16 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { ReactNode } from "react";
 
-const LoadingScreen = ({ onComplete }) => {
+type AppProps = {
+  children: ReactNode;
+};
+
+type LoadingScreenProps = {
+  onComplete: () => void;
+};
+
+const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const [title] = useState(['Developer', 'Designer']);
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
@@ -100,7 +109,7 @@ const LoadingScreen = ({ onComplete }) => {
 };
 
 // Main App Component that handles the transition
-const App = ({ children }) => {
+const App = ({ children }: AppProps) => {
   const [showMainContent, setShowMainContent] = useState(false);
 
   const handleLoadingComplete = () => {

@@ -25,3 +25,13 @@ body {
   font-family: var(--font-inter);
   /* Now uses Inter */
 }
+
+/* Enable smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optional: Improve snap experience */
+section {
+  scroll-snap-stop: always;
+}
