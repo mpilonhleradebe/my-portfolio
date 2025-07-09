@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from './NavBar';
 import ShowCanvas from './ShowCanvas';
+import SplitView from './SplitView';
 
 interface NavItem {
   id: string;
@@ -17,7 +18,7 @@ interface AllWorkProps {
 const AllWork = ({ navItems, handleNavClick,activeItem,setActiveItem }: AllWorkProps) => {
   return (
     <div className='w-screen h-screen' id='work'>
-      <div className="flex justify-center mt-5">
+      <div className="absolute top-5 left-5 z-10">
         <NavBar 
           navItems={navItems} 
           onNavClick={handleNavClick}
@@ -26,10 +27,10 @@ const AllWork = ({ navItems, handleNavClick,activeItem,setActiveItem }: AllWorkP
         />
       </div>
 
-      {/*show canvas*/}
-      <div className="">
-        <ShowCanvas />
-      </div>
+      {/*split work view*/}
+      <div className="z-2">
+         <SplitView />
+     </div>
     </div>
   );
 };

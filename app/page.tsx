@@ -108,7 +108,7 @@ export default function Home() {
 
   const calculateBgColor = () => {
     if (scrollProgress < BG_TRANSITION_START) return "rgb(0, 0, 0)";
-    if (scrollProgress > BG_TRANSITION_END) return "rgb(254, 254, 254);";
+    if (scrollProgress > BG_TRANSITION_END) return "white"; //[#F7F7F7]
     
     const ratio = (scrollProgress - BG_TRANSITION_START) / 
                   (BG_TRANSITION_END - BG_TRANSITION_START);

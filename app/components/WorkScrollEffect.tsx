@@ -21,7 +21,7 @@ const WorkScrollEffect = ({ scrollProgress, onWorkClick }: ScrollProgressProp) =
         onClick={handleClick}
         className="cursor-pointer hover:opacity-70 transition-opacity"
       >
-        <h2 className='text-[11px] font-bold'>WORK</h2>
+        <h2 className='text-[11px] font-bold text-white'>WORK</h2>
       </a>
       {/* scroll effect */}
       <div className="w-[2px] h-52 bg-[#3B3B3B] mt-4 relative">

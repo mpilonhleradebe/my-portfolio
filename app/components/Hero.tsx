@@ -24,10 +24,10 @@ const Hero = ({scrollProgress, setScrollProgress}: scrollProgressProp) => {
       </div>
       {/* Name and intro message. */}
       <div className="ml-100 text-2xl mt-20" >
-        <h1 className='font-bold'>Mpilonhle Radebe</h1>
-        <h1 className='text-7xl font-bold mt-10'>Software Engineer</h1>
-        <h1 className='text-7xl font-bold mt-5'>Based in Johannesburg.</h1>
-        <h1 className='text-7xl font-bold mt-20 w-200'>
+        <h1 className='font-bold text-white'>Mpilonhle Radebe</h1>
+        <h1 className='text-7xl font-bold mt-10 text-white'>Software Engineer</h1>
+        <h1 className='text-7xl font-bold mt-5 text-white'>Based in Johannesburg.</h1>
+        <h1 className='text-7xl font-bold mt-20 w-200 text-white'>
           focused on human-centered design and meaningful tech.
         </h1>
       </div>
