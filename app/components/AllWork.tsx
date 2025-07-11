@@ -14,10 +14,12 @@ interface AllWorkProps {
   handleNavClick: (id: string) => void;
   activeItem: string | null;
   setActiveItem: (id: string) => void;
+  clicked: boolean;
+  setClicked: (clicked: boolean) => void;
 }
 
-const AllWork = ({ navItems, handleNavClick, activeItem, setActiveItem }: AllWorkProps) => {
-  const [clicked, setClicked] = useState(false);
+const AllWork = ({ navItems, handleNavClick, activeItem, setActiveItem,clicked, setClicked }: AllWorkProps) => {
+
   
 
   return (

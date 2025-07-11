@@ -3,6 +3,9 @@ import Hero from "./components/Hero";
 import AllWork from "./components/AllWork";
 import React, { useState, useEffect, useRef } from "react";
 import WorkScrollEffect from "./components/WorkScrollEffect";
+import { motion, AnimatePresence } from 'framer-motion';
+import NavBar from "./components/NavBar";
+import MeSection from "./components/MeSection";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -13,6 +16,7 @@ export default function Home() {
   const lastScrollTop = useRef(0);
   const directionRef = useRef<'up' | 'down'>('down');
   const [activeItem, setActiveItem] = useState<string>('intro'); // Set initial active item
+  const [clicked, setClicked] = useState(false); //state for work section click
   
   // Smoother background transition
   const BG_TRANSITION_START = 0.3;
@@ -141,6 +145,8 @@ export default function Home() {
         transition: isScrolling.current ? 'none' : 'background-color 200ms ease'
       }}
     >
+
+
       {/* Hero Section */}
       <section 
         ref={heroRef} 
@@ -160,23 +166,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Fixed Work Section */}
-      <section 
-        ref={workRef} 
+      {/* nav bar */}
+      <div className="absolute top-5 left-5 z-10">
+        <AnimatePresence>
+          {!clicked && (
+            <motion.div
+              key="navbar"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <NavBar 
+                navItems={navItems} 
+                onNavClick={handleNavClick}
+                activeItem={activeItem}
+                setActiveItem={setActiveItem}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <section
+        ref={workRef}
         id="work"
-        className="min-h-screen"
-        style={{ 
-          opacity: Math.min(1, Math.max(0, (scrollProgress - 0.3) * 2)),
-          transition: 'opacity 100ms ease-out'
-        }}
+        className="relative min-h-screen"
       >
-        <AllWork 
-          navItems={navItems} 
-          handleNavClick={handleNavClick} 
-          activeItem={activeItem} 
-          setActiveItem={setActiveItem} 
-        />
+        {/* Work Section */}
+        <div className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
+          activeItem === 'work' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+        }`}>
+          <AllWork 
+            navItems={navItems} 
+            handleNavClick={handleNavClick} 
+            activeItem={activeItem} 
+            setActiveItem={setActiveItem} 
+            clicked={clicked}
+            setClicked={setClicked}
+          />
+        </div>
+
+        {/* Me Section */}
+        <div className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
+          activeItem === 'about' ? 'opacity-100 z-9 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+          }`}>
+          <MeSection />
+        </div>
       </section>
+
     </div>
   );
 }
