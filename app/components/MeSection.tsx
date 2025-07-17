@@ -28,7 +28,7 @@ const MeSection = () => {
           <h2 className='text-neutral-900 text-[26px] whitespace-nowrap font-semibold'>technically,</h2>
           <p className='text-zinc-800 tracking-wide text-[16px] leading-7'>
             I’m a final-year Information Systems student with a focus on <b>software development</b>, <b>product design</b>, and <b>data</b>.
-            I’ve worked on a range of projects — from a mobile safety app (<i>AlertNet</i>), to a music vault platform for artists (<i>Drafted</i>), to a clean personal site that reflects how I think.
+            I’ve worked on a range of projects — from a mobile safety app AlertNet, to a music vault platform for artists Drafted, to a clean personal site that reflects how I think.
             Right now, I’m diving deeper into backend dev, sharpening my frontend skills with React and Next.js, and learning to build faster without breaking clarity.
           </p>
         </div>

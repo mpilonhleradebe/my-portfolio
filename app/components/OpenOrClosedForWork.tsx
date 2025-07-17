@@ -1,7 +1,7 @@
 import React from 'react'
 
 const OpenOrClosedForWork = () => {
-    const [isOpen, setIsOpen] = React.useState(false)
+    const [isOpen, setIsOpen] = React.useState(true)
     const [company, setCompany] = React.useState('Amazon')
 
   return (
