@@ -1,22 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface ClickedState {
+// Project data structure
+interface Project {
+  title: string;
+  year: string;
+  challenge: string;
+  approach: string;
+  role: string[];
+  gif: string;
+  images: string[];
+}
+
+interface SplitProjectViewProps {
   clicked: boolean;
   setClicked: (id: boolean) => void;
   activeItem: string | null;
+  project: Project;
 }
 
-function SplitProjectView({ clicked, setClicked }: ClickedState) {
-  const imageList = [
-    '1.png',
-    '2.png',
-    '3.png',
-    '4.png',
-    '5.png',
-    '6.png',
-  ];
-
+// SplitProjectView Component (receives project data)
+function SplitProjectView({ clicked, setClicked, project }: SplitProjectViewProps) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
   const labelRef = useRef<HTMLDivElement>(null);
@@ -70,13 +74,13 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
       if (container) {
         const scrollTop = container.scrollTop;
         const containerHeight = container.clientHeight;
-        const paddingTop = 150; // Matches pt-[150px]
+        const paddingTop = 150;
         const imageHeight = 700;
         const marginBottom = 16;
         let maxVisibleHeight = 0;
         let mostVisibleIndex = 0;
 
-        imageList.forEach((_, index) => {
+        project.images.forEach((_, index) => {
           const top = paddingTop + index * (imageHeight + marginBottom);
           const bottom = top + imageHeight;
           const visibleHeight = Math.max(
@@ -101,7 +105,6 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
       onMouseMove={handleMouseMove}
       style={{ position: 'relative' }}
     >
-      {/* Cursor label with animation */}
       <AnimatePresence mode="wait">
         <motion.div
           key={clicked ? 'close' : 'open'}
@@ -127,7 +130,6 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Left side - project details */}
       <div
         className={`transition-all duration-500 ease-linear ${
           clicked ? 'w-[60vw]' : 'w-[50vw]'
@@ -140,11 +142,11 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: 'linear' }}
           >
-            <img src="/gifs/drafted/drafted01.gif" alt="drafted reel" className="" />
+            <img src={project.gif} alt={`${project.title} reel`} className="" />
           </motion.div>
         ) : (
           <motion.div
-            className="flex flex-col px-12 py-8 w-full h-screen "
+            className="flex flex-col px-12 py-8 w-full h-screen"
             initial={{ opacity: 0, y: 80, rotateX: -10 }}
             animate={{ opacity: 1, y: 0, rotateX: 0 }}
             transition={{ duration: 0.6, ease: 'linear' }}
@@ -157,12 +159,7 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
               transition={{ duration: 0.5, delay: 0.2, ease: 'linear' }}
             >
               <h1 className="text-black text-[15px] whitespace-nowrap mt-1">challenge:</h1>
-              <p className="text-black text-[15px] w-5vw">
-              Unreleased music lives everywhere but nowhere. DAWs. Cloud drives. Forgotten hard
-              disks. There’s no single place where artists can see their work, feel its potential,
-              and decide what comes next. Drafted began with a simple question: What if unfinished
-              music had a home?
-              </p>
+              <p className="text-black text-[15px] w-5vw">{project.challenge}</p>
             </motion.div>
 
             <motion.div
@@ -172,11 +169,7 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
               transition={{ duration: 0.5, delay: 0.35, ease: 'linear' }}
             >
               <h1 className="text-black text-[15px] whitespace-nowrap">approach:</h1>
-              <p className="text-black text-[15px] w-5vw">
-                Drafted is a platform for artists to store, share, and discover unfinished music.
-                It’s a place to see what’s possible, and to find collaborators who can help make it
-                real. I designed the experience to be simple, intuitive, and inspiring.
-              </p>
+              <p className="text-black text-[15px] w-5vw">{project.approach}</p>
             </motion.div>
 
             <motion.div
@@ -187,18 +180,18 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
             >
               <h1 className="text-black text-[15px] whitespace-nowrap">role:</h1>
               <ul className="text-black text-[15px] w-5vw pl-5">
-                <li>Product Design</li>
-                <li>UI/UX</li>
-                <li>Frontend</li>
-                <li>Creative Direction</li>
-                <li>Branding</li>
+                {project.role.map((r, i) => (
+                  <li key={i}>{r}</li>
+                ))}
               </ul>
             </motion.div>
           </motion.div>
         )}
 
         <div className="absolute bottom-4 left-0 right-0 px-6 flex flex-row justify-between items-center z-10">
-          <h1 className="font-semibold text-5xl text-black uppercase text-left">drafted</h1>
+          <h1 className="font-semibold text-5xl text-black uppercase text-left">
+            {project.title}
+          </h1>
           <AnimatePresence mode="wait">
             {!clicked ? (
               <motion.h1
@@ -209,7 +202,7 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                2024
+                {project.year}
               </motion.h1>
             ) : (
               <motion.div
@@ -221,14 +214,13 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
                 transition={{ duration: 0.2 }}
               >
                 <p className="text-black uppercase">more</p>
-                <img src="/icons/arrow-more.png" alt="" className="w-4 rotate-265 mr-2" />
+                <div className="w-4 h-4 border-r-2 border-b-2 border-black transform rotate-45 mt-1"></div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
 
-      {/* Right side - project visuals */}
       <div
         className={`transition-all duration-500 ease-linear ${
           clicked ? 'w-[40vw]' : 'w-[50vw]'
@@ -252,7 +244,7 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
             `}
           </style>
           <motion.div className="flex flex-col w-full hide-scrollbar">
-            {imageList.map((img, index) => (
+            {project.images.map((img, index) => (
               <motion.div
                 key={img}
                 layout
@@ -267,8 +259,8 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
                 style={{ overflow: 'hidden', marginBottom: clicked ? '16px' : '0px' }}
               >
                 <motion.img
-                  src={`/images/drafted/${img}`}
-                  alt={`drafted-${index}`}
+                  src={img}
+                  alt={`${project.title}-${index}`}
                   className="w-full h-full object-cover"
                   initial={{ scale: 0.9, y: 20 }}
                   animate={{ scale: 1, y: 0 }}
@@ -295,7 +287,7 @@ function SplitProjectView({ clicked, setClicked }: ClickedState) {
               <motion.h1
                 className="text-gray-400 text-xs"
                 animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 1.5 }}
+                transition={{ duration: 1.5, repeat: Infinity }}
               >
                 SCROLL DOWN TO SHOW MORE
               </motion.h1>

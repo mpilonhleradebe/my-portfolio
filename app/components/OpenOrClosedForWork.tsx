@@ -1,8 +1,8 @@
 import React from 'react'
 
 const OpenOrClosedForWork = () => {
-    const [isOpen, setIsOpen] = React.useState(true)
-    const [company, setCompany] = React.useState('Amazon')
+    const [isOpen, setIsOpen] = React.useState(false)
+    const [company, setCompany] = React.useState('Lexis Nexis')
 
   return (
     <div className="flex items-center gap-3">
