@@ -18,6 +18,10 @@ const NavBar = ({ navItems, onNavClick,activeItem,setActiveItem }: NavItemsProp)
 
   const handleClick = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
+    if (id === 'resume') {
+      window.open('https://mpilonhleradebe.github.io/2.0SOFTWARE-ENGINEERING-RESUME.pdf', '_blank');
+      return;
+    }
     setActiveItem(id);
     onNavClick(id); // Use the passed handler
   };

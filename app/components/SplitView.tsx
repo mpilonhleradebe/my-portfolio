@@ -62,22 +62,22 @@ function SplitView({ clicked, setClicked, activeItem }: SplitViewProps) {
         '/images/drafted/6.png',
       ],
     },
-    {
-      id: 'artflow',
-      title: 'artflow',
-      year: '2023',
-      gif: '/gifs/artflow/artflow01.gif',
-      challenge: "Digital artists struggle to organize their creative process. Sketches, references, and final pieces are scattered across devices and apps, making it hard to track creative evolution and maintain inspiration.",
-      approach: "Artflow provides a unified workspace where artists can collect references, sketch ideas, and develop final pieces in one seamless environment. The platform emphasizes visual organization and creative flow.",
-      role: ['Product Design', 'UI/UX', 'Brand Identity', 'Visual Design'],
-      images: [
-        '/images/artflow/1.png',
-        '/images/artflow/2.png',
-        '/images/artflow/3.png',
-        '/images/artflow/4.png',
-        '/images/artflow/5.png',
-      ],
-    },
+    // {
+    //   id: 'artflow',
+    //   title: 'artflow',
+    //   year: '2023',
+    //   gif: '/gifs/artflow/artflow01.gif',
+    //   challenge: "Digital artists struggle to organize their creative process. Sketches, references, and final pieces are scattered across devices and apps, making it hard to track creative evolution and maintain inspiration.",
+    //   approach: "Artflow provides a unified workspace where artists can collect references, sketch ideas, and develop final pieces in one seamless environment. The platform emphasizes visual organization and creative flow.",
+    //   role: ['Product Design', 'UI/UX', 'Brand Identity', 'Visual Design'],
+    //   images: [
+    //     '/images/artflow/1.png',
+    //     '/images/artflow/2.png',
+    //     '/images/artflow/3.png',
+    //     '/images/artflow/4.png',
+    //     '/images/artflow/5.png',
+    //   ],
+    // },
   ];
 
   useEffect(() => {
