@@ -4,6 +4,7 @@ import "./globals.css";
 import App from "./components/LoadingScreen"; // Updated import
 import { Inter } from 'next/font/google'
 import { Playfair_Display } from "next/font/google";
+import { Jacquarda_Bastarda_9 } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,13 +35,21 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
 })
 
+// Jacquard Bastarda 9
+const jacquarda = Jacquarda_Bastarda_9({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-jacquarda",
+});
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} ${jacquarda.variable}`}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >

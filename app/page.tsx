@@ -6,6 +6,7 @@ import WorkScrollEffect from "./components/WorkScrollEffect";
 import { motion, AnimatePresence } from 'framer-motion';
 import NavBar from "./components/NavBar";
 import MeSection from "./components/MeSection";
+import Skill from "./components/Skill";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -22,7 +23,7 @@ export default function Home() {
   const BG_TRANSITION_START = 0.3;
   const BG_TRANSITION_END = 0.7;
 
-  useEffect(() => {
+useEffect(() => {
     const container = containerRef.current;
     const hero = heroRef.current;
     if (!container || !hero) return;
@@ -50,24 +51,48 @@ export default function Home() {
       setScrollProgress(progress);
 
       // Update active item based on scroll position and direction
-      if (directionRef.current === 'down' && progress > 0.5) {
-        setActiveItem('work');
-      } else if (directionRef.current === 'up' && progress < 0.5) {
-        setActiveItem('intro');
+      if (activeItem === 'intro' || activeItem === 'work') {
+        if (directionRef.current === 'down' && progress > 0.5) {
+          setActiveItem('work');
+        } else if (directionRef.current === 'up' && progress < 0.5) {
+          setActiveItem('intro');
+        }
       }
 
-      // Set timeout for snap effect with reduced delay
+      // Apply snap logic
       scrollEndTimer.current = setTimeout(() => {
         isScrolling.current = false;
         const direction = directionRef.current;
-        const shouldSnapToWork = direction === 'down' && progress > 0.3;
-        const shouldSnapToHero = direction === 'up' && progress < 0.7;
         
-        if (shouldSnapToWork || shouldSnapToHero) {
-          container.scrollTo({
-            top: shouldSnapToWork ? heroHeight : 0,
-            behavior: 'smooth'
-          });
+        // For intro/work transition
+        if (activeItem === 'intro' || activeItem === 'work') {
+          const shouldSnapToWork = direction === 'down' && progress > 0.3;
+          const shouldSnapToHero = direction === 'up' && progress < 0.7;
+          
+          if (shouldSnapToWork || shouldSnapToHero) {
+            container.scrollTo({
+              top: shouldSnapToWork ? heroHeight : 0,
+              behavior: 'smooth'
+            });
+          }
+        } 
+        // For other tabs (skills, about, resume)
+        else {
+          // If scrolling up significantly, snap to intro
+          if (direction === 'up' && progress < 0.7) {
+            container.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+            setActiveItem('intro');
+          } 
+          // If at work position, stay there
+          else if (progress > 0.3) {
+            container.scrollTo({
+              top: heroHeight,
+              behavior: 'smooth'
+            });
+          }
         }
       }, 80);
     };
@@ -77,26 +102,32 @@ export default function Home() {
       container.removeEventListener('scroll', handleScroll);
       if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
     };
-  }, []);
+  }, [activeItem]);
 
   const handleNavClick = (id: string) => {
     setActiveItem(id); // Set active item on click
     const container = containerRef.current;
-    if (!container) return;
+    const hero = heroRef.current;
+    if (!container || !hero) return;
 
     if (id === 'intro') {
       container.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
+    } else if (id === 'work') {
+      const heroHeight = hero.clientHeight;
+      container.scrollTo({
+        top: heroHeight,
+        behavior: 'smooth'
+      });
     } else {
-      const targetSection = document.getElementById(id);
-      if (targetSection) {
-        container.scrollTo({
-          top: targetSection.offsetTop,
-          behavior: 'smooth'
-        });
-      }
+      // For other tabs (skills, about, resume), scroll to work position
+      const heroHeight = hero.clientHeight;
+      container.scrollTo({
+        top: heroHeight,
+        behavior: 'smooth'
+      });
     }
   };
   
@@ -123,15 +154,13 @@ export default function Home() {
   const bgColor = calculateBgColor();
   const scrollIndicatorOpacity = Math.max(0, 1 - (scrollProgress * 1.5));
 
-      const navItems = [
+  const navItems = [
     { id: 'intro', label: 'Intro' },
     { id: 'work', label: 'Work' },
     { id: 'about', label: 'Me' },
     { id: 'skills', label: 'Skills' },
     { id: 'resume', label: 'Resume' }
-      ];
-  
-  
+  ];
   
   //refs
   const workRef = useRef<HTMLDivElement>(null);
@@ -146,7 +175,6 @@ export default function Home() {
       }}
     >
 
-
       {/* Hero Section */}
       <section 
         ref={heroRef} 
@@ -160,9 +188,9 @@ export default function Home() {
           style={{ opacity: scrollIndicatorOpacity }}
         >
           <WorkScrollEffect 
-  scrollProgress={scrollProgress} 
-  onWorkClick={handleWorkClick} 
-/>
+            scrollProgress={scrollProgress} 
+            onWorkClick={handleWorkClick} 
+          />
         </div>
       </section>
 
@@ -212,6 +240,13 @@ export default function Home() {
           activeItem === 'about' ? 'opacity-100 z-9 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
           }`}>
           <MeSection />
+        </div>
+
+        {/* Skills */}
+        <div className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
+          activeItem === 'skills' ? 'opacity-100 z-8 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+        }`}>
+          <Skill />
         </div>
       </section>
 
