@@ -5,7 +5,7 @@ const Fun = () => {
       <div className='w-full'>
           {/* project preview as background */}
           <div className="">
-                <img src="/images/test.png" alt="Fun Background" className="w-full h-full object-cover"/>
+                {/* <img src="/images/test.png" alt="Fun Background" className="w-full h-full object-cover"/> */}
           </div>
     </div>
   )
