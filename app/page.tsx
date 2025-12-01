@@ -159,7 +159,8 @@ useEffect(() => {
     { id: 'work', label: 'Work' },
     { id: 'about', label: 'Me' },
     { id: 'skills', label: 'Skills' },
-    { id: 'resume', label: 'Resume' }
+    { id: 'resume', label: 'Resume' },
+    {id: 'fun', label: 'Fun' },
   ];
   
   //refs
