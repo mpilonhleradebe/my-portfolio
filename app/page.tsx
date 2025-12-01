@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import NavBar from "./components/NavBar";
 import MeSection from "./components/MeSection";
 import Skill from "./components/Skill";
+import Fun from "./components/Fun";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -18,6 +19,7 @@ export default function Home() {
   const directionRef = useRef<'up' | 'down'>('down');
   const [activeItem, setActiveItem] = useState<string>('intro'); // Set initial active item
   const [clicked, setClicked] = useState(false); //state for work section click
+  const [isFunTab, setIsFunTab] = useState(false);
   
   // Smoother background transition
   const BG_TRANSITION_START = 0.3;
@@ -169,7 +171,7 @@ useEffect(() => {
   return (
     <div 
       ref={containerRef}
-      className="h-screen w-screen overflow-y-auto scroll-smooth"
+      className="h-screen w-screen overflow-y-scroll scroll-smooth"
       style={{ 
         backgroundColor: bgColor,
         transition: isScrolling.current ? 'none' : 'background-color 200ms ease'
@@ -220,11 +222,11 @@ useEffect(() => {
       <section
         ref={workRef}
         id="work"
-        className="relative min-h-screen"
+        className="relative" //might need to say min-h-screen here
       >
         {/* Work Section */}
         <div className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
-          activeItem === 'work' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+          activeItem === 'work' ? 'opacity-100 z-9 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
         }`}>
           <AllWork 
             navItems={navItems} 
@@ -248,6 +250,13 @@ useEffect(() => {
           activeItem === 'skills' ? 'opacity-100 z-8 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
         }`}>
           <Skill />
+        </div>
+
+        {/* Fun Section */}
+        <div className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
+          activeItem === 'fun' ? 'opacity-100 z-7 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+        }`}>
+          <Fun />
         </div>
       </section>
 

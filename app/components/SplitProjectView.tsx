@@ -28,11 +28,6 @@ function SplitProjectView({ clicked, setClicked, project }: SplitProjectViewProp
   const requestRef = useRef<number>(null);
   const [labelPos, setLabelPos] = useState({ x: 0, y: 0 });
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    setMouse({ x: e.clientX, y: e.clientY });
-  };
-
   useEffect(() => {
     const animate = () => {
       setLabelPos((prev) => {
@@ -100,35 +95,11 @@ function SplitProjectView({ clicked, setClicked, project }: SplitProjectViewProp
 
   return (
     <div
-      className="flex flex-row w-screen h-screen overflow-hidden cursor-pointer"
+      className="flex flex-row w-screen h-screen overflow-hidden cursor-pointer "
       onClick={handleClick}
-      onMouseMove={handleMouseMove}
       style={{ position: 'relative' }}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={clicked ? 'close' : 'open'}
-          ref={labelRef}
-          style={{
-            position: 'fixed',
-            left: labelPos.x,
-            top: labelPos.y + 32,
-            pointerEvents: 'none',
-            zIndex: 10000,
-            fontSize: 16,
-            fontWeight: 600,
-            color: '#fff',
-            mixBlendMode: 'difference',
-            userSelect: 'none',
-          }}
-          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -10, scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-        >
-          {clicked ? 'close' : 'open'}
-        </motion.div>
-      </AnimatePresence>
+
 
       <div
         className={`transition-all duration-500 ease-linear ${

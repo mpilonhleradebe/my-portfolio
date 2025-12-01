@@ -62,22 +62,6 @@ function SplitView({ clicked, setClicked, activeItem }: SplitViewProps) {
         '/images/drafted/6.png',
       ],
     },
-    // {
-    //   id: 'artflow',
-    //   title: 'artflow',
-    //   year: '2023',
-    //   gif: '/gifs/artflow/artflow01.gif',
-    //   challenge: "Digital artists struggle to organize their creative process. Sketches, references, and final pieces are scattered across devices and apps, making it hard to track creative evolution and maintain inspiration.",
-    //   approach: "Artflow provides a unified workspace where artists can collect references, sketch ideas, and develop final pieces in one seamless environment. The platform emphasizes visual organization and creative flow.",
-    //   role: ['Product Design', 'UI/UX', 'Brand Identity', 'Visual Design'],
-    //   images: [
-    //     '/images/artflow/1.png',
-    //     '/images/artflow/2.png',
-    //     '/images/artflow/3.png',
-    //     '/images/artflow/4.png',
-    //     '/images/artflow/5.png',
-    //   ],
-    // },
   ];
 
   useEffect(() => {
@@ -85,15 +69,18 @@ function SplitView({ clicked, setClicked, activeItem }: SplitViewProps) {
     if (!container) return;
 
     const handleScroll = () => {
-      const scrollTop = container.scrollTop;
-      const windowHeight = window.innerHeight;
-      const newIndex = Math.round(scrollTop / windowHeight);
-      setCurrentProjectIndex(Math.min(newIndex, projects.length - 1));
+      // Only update project index if not clicked (closed state)
+      if (!clicked) {
+        const scrollTop = container.scrollTop;
+        const windowHeight = window.innerHeight;
+        const newIndex = Math.round(scrollTop / windowHeight);
+        setCurrentProjectIndex(Math.min(newIndex, projects.length - 1));
+      }
     };
 
     container.addEventListener('scroll', handleScroll);
     return () => container.removeEventListener('scroll', handleScroll);
-  }, [projects.length]);
+  }, [projects.length, clicked]);
 
   return (
     <div className="w-screen h-screen relative">
@@ -116,7 +103,9 @@ function SplitView({ clicked, setClicked, activeItem }: SplitViewProps) {
       {/* Scrollable container for all projects */}
       <div
         ref={scrollContainerRef}
-        className="w-screen h-screen overflow-y-scroll snap-y snap-mandatory"
+        className={`w-screen h-screen snap-y snap-mandatory ${
+          clicked ? 'overflow-hidden' : 'overflow-y-scroll'
+        }`}
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
