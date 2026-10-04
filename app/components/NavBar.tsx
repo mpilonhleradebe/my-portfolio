@@ -19,13 +19,12 @@ const NavBar = ({ navItems, onNavClick,activeItem,setActiveItem }: NavItemsProp)
   const handleClick = (id: string, e: React.MouseEvent) => {
     e.preventDefault();
     if (id === 'resume') {
-      window.open('https://mpilonhleradebe.github.io/2.0SOFTWARE-ENGINEERING-RESUME.pdf', '_blank');
+      window.open('https://mpilonhleradebe.github.io/3.0SOFTWARE-ENGINEERING-RESUME.pdf', '_blank');
       return;
     }
     setActiveItem(id);
     onNavClick(id); // Use the passed handler
   };
-
   return (
     <nav aria-label="Main navigation">
       <ul className="flex gap-10 align-middle">

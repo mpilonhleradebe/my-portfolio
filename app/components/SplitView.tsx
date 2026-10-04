@@ -28,6 +28,23 @@ function SplitView({ clicked, setClicked, activeItem }: SplitViewProps) {
 
   // Define all projects here in SplitView
   const projects: Project[] = [
+    {
+      id: 'stuartmasters',
+      title: 'Stuart Masters',
+      year: '2026',
+      gif: '/gifs/stuartmasters/stuartmasters.JPG',
+      challenge: "Stuart Maintance Masters is a family owned business that provides maintenance services for residential and commercial properties. The challenge was to create a website that would showcase their services and allow customers to easily book appointments online.",
+      approach: "Make the website reflect the culture and values of the business. The website was designed to be simple, clean, and easy to navigate. The booking system was integrated into the website to allow customers to easily book appointments online.",
+      role: ['Product Design', 'UI/UX', 'Frontend Development', 'Backend Development', 'User Research'],
+      images: [
+        '/images/stuartmasters/1.png',
+        '/images/stuartmasters/2.png',
+        '/images/stuartmasters/3.png',
+        '/images/stuartmasters/4.png',
+        '/images/stuartmasters/5.png',
+        '/images/stuartmasters/6.png',
+      ],
+    },
       {
       id: 'alertnet',
       title: 'Alertnet',
